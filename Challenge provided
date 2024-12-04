@@ -1,0 +1,56 @@
+Challenge: Implement a Custom Async Scheduler
+
+Problem:
+
+You are tasked to implement a custom asynchronous scheduler in JavaScript that limits the number of tasks executed concurrently. The scheduler should provide the following functionality:
+
+Scheduler: A class that manages tasks.
+addTask: A method to add a task. Each task is a function returning a Promise that resolves after a given time.
+Concurrency Limit: The scheduler should allow a maximum number of tasks (e.g., N) to run concurrently.
+Task Queue: If the limit is reached, additional tasks should wait in a queue and execute only when the running tasks complete.
+Example Usage:
+
+const scheduler = new Scheduler(2); // Max 2 concurrent tasks
+
+const createTask = (id, time) => () =>
+  new Promise((resolve) => {
+    console.log(`Task ${id} started`);
+    setTimeout(() => {
+      console.log(`Task ${id} completed`);
+      resolve();
+    }, time);
+  });
+
+scheduler.addTask(createTask(1, 3000)); // Task 1 takes 3s
+scheduler.addTask(createTask(2, 2000)); // Task 2 takes 2s
+scheduler.addTask(createTask(3, 1000)); // Task 3 takes 1s
+scheduler.addTask(createTask(4, 4000)); // Task 4 takes 4s
+
+Expected Output:
+
+Task 1 started
+Task 2 started
+Task 1 completed
+Task 3 started
+Task 2 completed
+Task 4 started
+Task 3 completed
+Task 4 completed
+
+Requirements:
+
+Ensure tasks are executed in the order they are added.
+Maintain the concurrency limit strictly.
+Write clean and efficient code.
+Hints:
+
+Use a queue to manage the tasks.
+Maintain a runningCount variable to track the number of currently running tasks.
+Use recursion or a loop to process tasks from the queue as tasks complete.
+Evaluation Criteria:
+
+Correctness of the implementation.
+Efficient handling of tasks (no unnecessary delays).
+Readability and maintainability of the code.
+Proper use of JavaScript constructs like promises, async/await, and closures.
+
